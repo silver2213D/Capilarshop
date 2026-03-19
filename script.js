@@ -1,17 +1,17 @@
-// BASE DE DATOS DE PRODUCTOS SENSIPIEL
+// BASE DE DATOS DE PRODUCTOS LOGO EMPRESA
 const productos = [
-    { id: 1, nombre: 'Serum de Vitamina C Pura', categoria: 'rostro', precio: 65.00, imagen: 'images/serum-vitamina-c.jpg', descripcion: 'Serum concentrado con vitamina C estabilizada. Reduce manchas y reactiva la luminosidad natural de tu piel.', rating: 4.8, stock: 10 },
-    { id: 2, nombre: 'Crema Hidratante Premium', categoria: 'rostro', precio: 55.99, imagen: 'images/crema-hidratante.jpg', descripcion: 'Formula enriquecida con acido hialuronico y extractos naturales. Hidratacion profunda 24 horas.', rating: 4.7, stock: 15 },
-    { id: 3, nombre: 'Mascarilla Purificante de Arcilla', categoria: 'rostro', precio: 38.50, imagen: 'images/mascarilla-arcilla.jpg', descripcion: 'Mascarilla desintoxicante con arcilla blanca pura. Limpia profundamente los poros en 15 minutos.', rating: 4.6, descuento: 20, stock: 8 },
-    { id: 4, nombre: 'Cleanser Espumoso Suave', categoria: 'rostro', precio: 32.00, imagen: 'images/cleanser-suave.jpg', descripcion: 'Limpiador facial sin sulfatos. Remueve impurezas sin reseca tu piel. Apto para piel sensible.', rating: 4.5, stock: 12 },
-    { id: 5, nombre: 'Tonico Equilibrador pH', categoria: 'rostro', precio: 28.50, imagen: 'images/tonico-ph.jpg', descripcion: 'Tonica balanceadora que prepara la piel para los siguientes pasos. Con camomila y aloe vera.', rating: 4.4, stock: 20 },
-    { id: 6, nombre: 'Aceite Corporal Aromatico', categoria: 'cuerpo', precio: 42.00, imagen: 'images/aceite-corporal.jpg', descripcion: 'Aceite corporal nutritivo con aroma relajante. Hidrata y suaviza la piel del cuerpo en profundidad.', rating: 4.6, stock: 7 },
-    { id: 7, nombre: 'Crema de Manos Reparadora', categoria: 'cuerpo', precio: 19.99, imagen: 'images/crema-manos.jpg', descripcion: 'Crema reparadora especializada para manos. Protege y regenera la piel mas delicada.', rating: 4.3, stock: 25 },
-    { id: 8, nombre: 'Contorno de Ojos Antiarrugas', categoria: 'especializado', precio: 68.00, imagen: 'images/contorno-ojos.jpg', descripcion: 'Contorno anti-aging con cafaina y retinol natural. Reduce ojeras y arrugas de expresion en 4 semanas.', rating: 4.9, descuento: 15, stock: 5 },
-    { id: 9, nombre: 'Protector Solar SPF 50+', categoria: 'especializado', precio: 45.99, imagen: 'images/protector-solar.jpg', descripcion: 'Protector UV mineral con filtro de amplio espectro. Protege sin dejar residuo blanco. Apto para todas las pieles.', rating: 4.8, stock: 18 },
-    { id: 10, nombre: 'Serum Antienvejecimiento Avanzado', categoria: 'especializado', precio: 72.50, imagen: 'images/serum-antienvejecimiento.jpg', descripcion: 'Formula premium con retinol y peptidos biodispersables. Reafirma y rejuvenece la piel notoriamente.', rating: 4.9, descuento: 10, stock: 6 },
-    { id: 11, nombre: 'Exfoliante Enzimatico Suave', categoria: 'rostro', precio: 35.00, imagen: 'images/exfoliante-enzimatico.jpg', descripcion: 'Exfoliante enzimatico con papaya. Elimina celulas muertas sin irritar. 1-2 veces por semana.', rating: 4.5, stock: 14 },
-    { id: 12, nombre: 'Booster Luminosidad Facial', categoria: 'especializado', precio: 55.00, imagen: 'images/booster-luminosidad.jpg', descripcion: 'Booster concentrado con niacinamida pura. Proporciona efecto iluminador inmediato y a largo plazo.', rating: 4.7, descuento: 12, stock: 9 }
+    { id: 1, nombre: 'Shampoo Reparador con Keratina', categoria: 'shampoo', precio: 25.00, imagen: 'images/piel-sensible.jpg', descripcion: 'Shampoo nutritivo que refuerza la fibra capilar y mejora la elasticidad en cada lavado.', rating: 4.8, stock: 18 },
+    { id: 2, nombre: 'Acondicionador Hidratante', categoria: 'acondicionador', precio: 22.50, imagen: 'images/piel-sensible.jpg', descripcion: 'Acondicionador ligero que desenreda y aporta brillo sin apelmazar.', rating: 4.7, stock: 20 },
+    { id: 3, nombre: 'Mascarilla Intensiva de Argán', categoria: 'tratamiento', precio: 29.90, imagen: 'images/piel-sensible.jpg', descripcion: 'Tratamiento profundo para recuperar el cabello seco y dañado en minutos.', rating: 4.9, descuento: 15, stock: 12 },
+    { id: 4, nombre: 'Serum Anti-frizz', categoria: 'estilo', precio: 19.99, imagen: 'images/piel-sensible.jpg', descripcion: 'Serum ligero que controla el frizz y aporta un acabado suave y sedoso.', rating: 4.6, stock: 10 },
+    { id: 5, nombre: 'Spray Protector Térmico', categoria: 'estilo', precio: 18.50, imagen: 'images/piel-sensible.jpg', descripcion: 'Protege el cabello del calor de planchas y secadores hasta 230°C.', rating: 4.5, stock: 22 },
+    { id: 6, nombre: 'Aceite de Argán Puro', categoria: 'tratamiento', precio: 24.00, imagen: 'images/piel-sensible.jpg', descripcion: 'Aceite nutritivo para puntas abiertas y brillo intenso.', rating: 4.8, stock: 14 },
+    { id: 7, nombre: 'Crema para Puntas Secas', categoria: 'tratamiento', precio: 16.99, imagen: 'images/piel-sensible.jpg', descripcion: 'Reducción de puntas abiertas con efecto reparador inmediato.', rating: 4.4, stock: 27 },
+    { id: 8, nombre: 'Gel Fijador Suave', categoria: 'estilo', precio: 14.99, imagen: 'images/piel-sensible.jpg', descripcion: 'Fijación flexible con acabado natural y sin residuos.', rating: 4.3, descuento: 10, stock: 16 },
+    { id: 9, nombre: 'Shampoo Detox de Carbón', categoria: 'shampoo', precio: 21.99, imagen: 'images/piel-sensible.jpg', descripcion: 'Limpia profundamente eliminando residuos y exceso de grasa.', rating: 4.7, stock: 19 },
+    { id: 10, nombre: 'Mascarilla Nocturna Revitalizante', categoria: 'tratamiento', precio: 27.50, imagen: 'images/piel-sensible.jpg', descripcion: 'Repara mientras duermes para un cabello más suave al despertar.', rating: 4.9, descuento: 12, stock: 11 },
+    { id: 11, nombre: 'Crema para Definición de Rizos', categoria: 'estilo', precio: 20.00, imagen: 'images/piel-sensible.jpg', descripcion: 'Define rizos sin frizz y con movimiento natural.', rating: 4.6, stock: 13 },
+    { id: 12, nombre: 'Mascarilla de Colágeno + Vitamina E', categoria: 'tratamiento', precio: 26.00, imagen: 'images/piel-sensible.jpg', descripcion: 'Repara y fortalece la fibra capilar dejándola elástica y brillante.', rating: 4.8, descuento: 15, stock: 9 }
 ];
 
 // CARRITO
@@ -59,18 +59,18 @@ function createProductCard(producto) {
     const price = producto.descuento ? (producto.precio * (1 - producto.descuento / 100)).toFixed(2) : producto.precio.toFixed(2);
     const oldPrice = producto.descuento ? `<s style="color:#999;font-size:0.9rem">$${producto.precio.toFixed(2)}</s>` : '';
     
+    const outOfStock = producto.stock <= 0;
+    const stockLabel = outOfStock ? '<span class="stock out">Agotado</span>' : `<span class="stock">${producto.stock} disponibles</span>`;
+
     return `
-        <div class="product-card">
-            <div class="product-image"><img src="${producto.imagen}" alt="${producto.nombre}" onerror="this.src='images/placeholder.jpg'"></div>
+        <div class="product-card ${outOfStock ? 'out-of-stock' : ''}">
+            <div class="product-image"><img src="${producto.imagen}" alt="${producto.nombre}" onerror="this.src='images/piel-sensible.jpg'"></div>
             <div class="product-info">
                 <div class="product-name">${producto.nombre}</div>
                 <div class="product-category">${producto.categoria}</div>
                 <div class="product-rating">${'⭐'.repeat(Math.floor(producto.rating))} ${producto.rating}</div>
                 <div class="product-price">${oldPrice} $${price}</div>
-                <div class="product-actions">
-                    <button class="btn-add" onclick="addToCart(${producto.id})">🛒 Añadir</button>
-                    <button class="btn-view" onclick="showProductDetail(${producto.id})">Ver</button>
-                </div>
+                <div class="product-stock">${stockLabel}</div>
             </div>
         </div>
     `;

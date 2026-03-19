@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sensipiel - Cuidado que se siente</title>
+    <title>Logo Empresa - Belleza y Estilo</title>
     <link rel="stylesheet" href="estilos.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
@@ -12,8 +12,11 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo" onclick="showPage('home')">
-                <span class="logo-text">Sensipiel</span>
-                <span class="logo-tagline">Cuidado que se siente</span>
+                <img src="images/Logo empresa.jpeg" alt="Logo Empresa" class="logo-image">
+                <div class="logo-texts">
+                    <span class="logo-text">Logo Empresa</span>
+                    <span class="logo-tagline">Belleza y estilo desde el primer día</span>
+                </div>
             </div>
             <ul class="nav-menu">
                 <li><a href="#" onclick="showPage('home'); return false;">Inicio</a></li>
@@ -31,8 +34,8 @@
         <section class="hero">
             <div class="hero-overlay"></div>
             <div class="hero-content">
-                <h1>Sensil</h1>
-                <p>Para una piel radiante y cuidada</p>
+                <h1>Bienvenido a Logo Empresa</h1>
+                <p>Tu cuidado capilar profesional, hecho en casa</p>
                 <button class="btn-primary" onclick="showPage('tienda')">EXPLORAR PRODUCTOS</button>
             </div>
         </section>
@@ -75,10 +78,11 @@
                 <h3>FILTRAR</h3>
                 <div class="filter-section">
                     <h4>Categoria</h4>
-                    <label><input type="checkbox" value="rostro" onchange="filterProducts()"> Cuidado Rostro</label>
-                    <label><input type="checkbox" value="cuerpo" onchange="filterProducts()"> Cuidado Cuerpo</label>
-                    <label><input type="checkbox" value="especializado" onchange="filterProducts()"> Tratamientos Especializados</label>
-                    <label><input type="checkbox" value="promocion" onchange="filterProducts()"> En Promocion</label>
+                    <label><input type="checkbox" value="shampoo" onchange="filterProducts()"> Shampoo</label>
+                    <label><input type="checkbox" value="acondicionador" onchange="filterProducts()"> Acondicionador</label>
+                    <label><input type="checkbox" value="tratamiento" onchange="filterProducts()"> Tratamientos</label>
+                    <label><input type="checkbox" value="estilo" onchange="filterProducts()"> Estilo y Peinado</label>
+                    <label><input type="checkbox" value="promocion" onchange="filterProducts()"> En Promoción</label>
                 </div>
                 <div class="filter-section">
                     <h4>Rango de Precio</h4>
@@ -99,11 +103,11 @@
     <!-- PÁGINA ACERCA DE -->
     <div id="nosotros" class="page" style="display:none;">
         <div class="about-container">
-            <h1>SOBRE SENSIPIEL</h1>
+            <h1>SOBRE LOGO EMPRESA</h1>
             <div class="about-content">
                 <div class="about-text">
                     <h2>Nuestra Mision</h2>
-                    <p>En Sensipiel creemos que el cuidado de la piel es un acto de amor propio. Nos dedicamos a crear productos con ingredientes naturales de calidad premium que transforman tu rutina diaria en un momento de bienestar.</p>
+                    <p>En Logo Empresa creemos que el cuidado del cabello es una experiencia de belleza. Creamos productos premium con ingredientes naturales que transforman tu rutina en un momento de bienestar capilar.</p>
                     <h2>Ingredientes Naturales</h2>
                     <p>Cada formula esta cuidadosamente desarrollada con ingredientes naturales, testados dermatologicamente y sin quimicos agresivos. Tu piel lo merece.</p>
                 </div>
@@ -155,7 +159,7 @@
                     <h3>Estamos aqui para ayudarte</h3>
                     <div class="contact-item">
                         <strong>Correo Electronico</strong>
-                        <p>NegocioscontactoSensipielgmail.com</p>
+                        <p>contacto@logoempresa.com</p>
                     </div>
                     <div class="contact-item">
                         <strong>Telefono</strong>
@@ -231,8 +235,8 @@
                         
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="product-image">Imagen (URL):</label>
-                                <input type="url" id="product-image" placeholder="https://ejemplo.com/imagen.jpg" required>
+                                <label for="product-image">Imagen (subir archivo):</label>
+                                <input type="file" id="product-image" accept="image/*" required>
                             </div>
                             <div class="form-group">
                                 <label for="product-rating">Rating (1-5):</label>
@@ -265,8 +269,8 @@
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-section">
-                <h4>SENSIPIEL</h4>
-                <p>Cuidado que se siente</p>
+                <h4>LOGO EMPRESA</h4>
+                <p>Belleza y estilo que perdura</p>
             </div>
             <div class="footer-section">
                 <h4>Enlaces</h4>
@@ -286,7 +290,7 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2026 SENSIPIEL - Cuidado que se siente. Todos los derechos reservados.</p>
+            <p>&copy; 2026 LOGO EMPRESA - Belleza y estilo. Todos los derechos reservados.</p>
         </div>
     </footer>
 
