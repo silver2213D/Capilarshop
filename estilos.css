@@ -365,6 +365,13 @@ body {
     align-items: center;
     justify-content: center;
     font-size: 4rem;
+    overflow: hidden;
+}
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
 }
 
 .product-info {
@@ -1241,6 +1248,13 @@ body {
     align-items: center;
     justify-content: center;
     font-size: 3rem;
+    overflow: hidden;
+}
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
 }
 
 .product-info {
