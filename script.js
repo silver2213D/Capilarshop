@@ -251,6 +251,7 @@ function addProduct(e) {
     e.preventDefault();
 
     const nameInput = document.getElementById('product-name');
+    const categorySelect = document.getElementById('product-category');
     const sectionSelect = document.getElementById('product-section');
     const priceInput = document.getElementById('product-price');
     const stockInput = document.getElementById('product-stock');

@@ -60,21 +60,23 @@
                 <h3>FILTRAR</h3>
                 <div class="filter-section">
                     <h4>Categoria</h4>
-                    <label><input type="checkbox" value="shampoo" onchange="filterProducts()"> Shampoo</label>
-                    <label><input type="checkbox" value="acondicionador" onchange="filterProducts()"> Acondicionador</label>
-                    <label><input type="checkbox" value="tratamiento" onchange="filterProducts()"> Tratamientos</label>
-                    <label><input type="checkbox" value="estilo" onchange="filterProducts()"> Estilo y Peinado</label>
-                    <label><input type="checkbox" value="promocion" onchange="filterProducts()"> En Promoción</label>
+                    <label for="filter-shampoo"><input id="filter-shampoo" name="filter-category" type="checkbox" value="shampoo" onchange="filterProducts()"> Shampoo</label>
+                    <label for="filter-acondicionador"><input id="filter-acondicionador" name="filter-category" type="checkbox" value="acondicionador" onchange="filterProducts()"> Acondicionador</label>
+                    <label for="filter-tratamiento"><input id="filter-tratamiento" name="filter-category" type="checkbox" value="tratamiento" onchange="filterProducts()"> Tratamientos</label>
+                    <label for="filter-estilo"><input id="filter-estilo" name="filter-category" type="checkbox" value="estilo" onchange="filterProducts()"> Estilo y Peinado</label>
+                    <label for="filter-promocion"><input id="filter-promocion" name="filter-category" type="checkbox" value="promocion" onchange="filterProducts()"> En Promoción</label>
                 </div>
                 <div class="filter-section">
                     <h4>Rango de Precio</h4>
-                    <input type="range" min="0" max="300" value="300" id="price-range" onchange="filterProducts()">
+                    <label for="price-range">Precio máximo:</label>
+                    <input type="range" id="price-range" name="price-range" min="0" max="300" value="300" onchange="filterProducts()">
                     <p>Hasta <span class="price-symbol">$</span><span id="price-value">300</span></p>
                 </div>
             </aside>
             <main class="tienda-main">
                 <div class="search-bar">
-                    <input type="text" id="search-input" placeholder="Buscar producto..." onkeyup="searchProducts()">
+                    <label for="search-input" class="sr-only">Buscar producto</label>
+                    <input type="text" id="search-input" name="search-input" placeholder="Buscar producto..." onkeyup="searchProducts()">
                     <button onclick="searchProducts()" class="btn-search">🔍</button>
                 </div>
                 <div class="products-grid" id="products-grid"></div>
@@ -158,17 +160,29 @@
                 </div>
                 <form class="contact-form" onsubmit="sendContact(event)">
                     <h3>Envianos tu Consulta</h3>
-                    <input type="text" placeholder="Tu nombre completo" required>
-                    <input type="email" placeholder="tu@email.com" required>
-                    <select required>
-                        <option value="">Selecciona un tema</option>
-                        <option value="Producto">Consulta sobre producto</option>
-                        <option value="Pedido">Seguimiento de pedido</option>
-                        <option value="Devolucion">Devoluciones</option>
-                        <option value="Ayuda">Problema tecnico</option>
-                        <option value="otro">Otro</option>
-                    </select>
-                    <textarea placeholder="Cuentanos como podemos ayudarte..." rows="5" required></textarea>
+                    <div class="form-field">
+                        <label for="contact-name">Nombre completo</label>
+                        <input type="text" id="contact-name" name="contact-name" placeholder="Tu nombre completo" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="contact-email">Correo electrónico</label>
+                        <input type="email" id="contact-email" name="contact-email" placeholder="tu@email.com" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="contact-topic">Tema</label>
+                        <select id="contact-topic" name="contact-topic" required>
+                            <option value="">Selecciona un tema</option>
+                            <option value="Producto">Consulta sobre producto</option>
+                            <option value="Pedido">Seguimiento de pedido</option>
+                            <option value="Devolucion">Devoluciones</option>
+                            <option value="Ayuda">Problema técnico</option>
+                            <option value="otro">Otro</option>
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label for="contact-message">Mensaje</label>
+                        <textarea id="contact-message" name="contact-message" placeholder="Cuentanos como podemos ayudarte..." rows="5" required></textarea>
+                    </div>
                     <button type="submit" class="btn-primary">ENVIAR CONSULTA</button>
                 </form>
             </div>
@@ -207,11 +221,11 @@
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="product-name">Nombre del Producto:</label>
-                                <input type="text" id="product-name" required>
+                                <input type="text" id="product-name" name="product-name" required>
                             </div>
                             <div class="form-group">
                                 <label for="product-category">Categoría:</label>
-                                <select id="product-category" required>
+                                <select id="product-category" name="product-category" required>
                                     <option value="">Seleccionar categoría</option>
                                     <option value="rostro">Cuidado Rostro</option>
                                     <option value="cuerpo">Cuidado Cuerpo</option>
@@ -220,7 +234,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="product-section">Sección:</label>
-                                <select id="product-section" required>
+                                <select id="product-section" name="product-section" required>
                                     <option value="">Seleccionar sección</option>
                                 </select>
                             </div>
@@ -229,34 +243,34 @@
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="product-price">Precio ($):</label>
-                                <input type="number" id="product-price" step="0.01" min="0" required>
+                                <input type="number" id="product-price" name="product-price" step="0.01" min="0" required>
                             </div>
                             <div class="form-group">
                                 <label for="product-stock">Stock:</label>
-                                <input type="number" id="product-stock" min="0" required>
+                                <input type="number" id="product-stock" name="product-stock" min="0" required>
                             </div>
                         </div>
                         
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="product-image">Imagen (subir archivo):</label>
-                                <input type="file" id="product-image" accept="image/*" required>
+                                <input type="file" id="product-image" name="product-image" accept="image/*" required>
                             </div>
                             <div class="form-group">
                                 <label for="product-rating">Rating (1-5):</label>
-                                <input type="number" id="product-rating" min="1" max="5" step="0.1" required>
+                                <input type="number" id="product-rating" name="product-rating" min="1" max="5" step="0.1" required>
                             </div>
                         </div>
                         
                         <div class="form-group">
                             <label for="product-description">Descripción:</label>
-                            <textarea id="product-description" rows="3" required></textarea>
+                            <textarea id="product-description" name="product-description" rows="3" required></textarea>
                         </div>
                         
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="product-discount">Descuento (%):</label>
-                                <input type="number" id="product-discount" min="0" max="100" placeholder="Opcional">
+                                <input type="number" id="product-discount" name="product-discount" min="0" max="100" placeholder="Opcional">
                             </div>
                             <div class="form-group">
                                 <label>&nbsp;</label>
