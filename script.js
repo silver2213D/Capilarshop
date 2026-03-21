@@ -649,6 +649,10 @@ async function checkout() {
         // Recargar productos para actualizar stock localmente
         await loadProductsFromSupabase();
         
+        // Re-renderizar todas las tarjetas de productos (actualizar stock visible)
+        loadProducts();
+        loadHomeProducts();
+        
         // Vaciar carrito
         carrito = [];
         updateCartCount();
