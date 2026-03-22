@@ -119,6 +119,36 @@
     <div id="detalle" class="page" style="display:none;">
         <button class="btn-back" onclick="showPage('tienda')">← Volver</button>
         <div class="product-detail" id="product-detail-container"></div>
+        <div class="reviews-section" id="reviews-section">
+            <h3>Reseñas y Comentarios</h3>
+            <div id="reviews-list"></div>
+            <div class="add-review">
+                <h4>Agregar Reseña</h4>
+                <form id="review-form" onsubmit="submitReview(event)">
+                    <input type="hidden" id="review-product-id">
+                    <div class="form-field">
+                        <label for="review-name">Nombre</label>
+                        <input type="text" id="review-name" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="review-rating">Calificación</label>
+                        <select id="review-rating" required>
+                            <option value="">Selecciona</option>
+                            <option value="5">⭐⭐⭐⭐⭐ (5)</option>
+                            <option value="4">⭐⭐⭐⭐ (4)</option>
+                            <option value="3">⭐⭐⭐ (3)</option>
+                            <option value="2">⭐⭐ (2)</option>
+                            <option value="1">⭐ (1)</option>
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label for="review-comment">Comentario</label>
+                        <textarea id="review-comment" rows="3" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary">Enviar Reseña</button>
+                </form>
+            </div>
+        </div>
     </div>
 
     <!-- PÁGINA CARRITO -->
@@ -128,7 +158,14 @@
             <div class="cart-items" id="cart-items"></div>
             <div class="cart-summary">
                 <h3>Resumen</h3>
+                <div class="coupon-section">
+                    <label for="coupon-code">Código de Cupón</label>
+                    <input type="text" id="coupon-code" placeholder="Ingresa código">
+                    <button onclick="applyCoupon()" class="btn-secondary">Aplicar</button>
+                    <div id="coupon-message"></div>
+                </div>
                 <p>Subtotal: RD$<span id="subtotal">0.00</span></p>
+                <p>Descuento: RD$<span id="discount">0.00</span></p>
                 <p>Envío: RD$<span id="shipping">0.00</span></p>
                 <h4>Total: RD$<span id="total">0.00</span></h4>
                 <button class="btn-primary" onclick="checkout()">Ir a Pagar</button>
@@ -277,6 +314,32 @@
                             <div class="form-group">
                                 <label>&nbsp;</label>
                                 <button type="submit" class="btn-primary">Agregar Producto</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="admin-section">
+                    <h2>Cupones</h2>
+                    <div id="admin-coupons-list" class="admin-coupons-list"></div>
+                    <form class="admin-form" id="add-coupon-form" style="margin-top:1rem; max-width:500px;">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="coupon-code-input">Código de cupón</label>
+                                <input type="text" id="coupon-code-input" required placeholder="EJ: DESCUENTO10">
+                            </div>
+                            <div class="form-group">
+                                <label for="coupon-value-input">Valor del descuento (%)</label>
+                                <input type="number" id="coupon-value-input" required min="0" max="100" step="0.01" placeholder="10">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="coupon-uses-input">Tiempo de uso (0 = ilimitado)</label>
+                                <input type="number" id="coupon-uses-input" min="0" step="1" placeholder="100">
+                            </div>
+                            <div class="form-group" style="align-self:flex-end;">
+                                <button type="submit" class="btn-primary">Agregar Cupón</button>
                             </div>
                         </div>
                     </form>

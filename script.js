@@ -25,15 +25,26 @@ let secciones = [
 // CARRITO
 let carrito = [];
 
+// CUPÓN APLICADO
+let cuponAplicado = null;
+
+// Cupones administrables
+let cupones = [];
+
+// RESEÑAS
+let resenas = [];
+
 // INICIALIZAR LA PÁGINA
 document.addEventListener('DOMContentLoaded', async function() {
     await loadProductsFromSupabase();
+    await loadCouponsFromSupabase();
     loadSectionsFromLocalStorage();
     loadSectionsInProductForm();
 
     loadProducts();
     loadHomeProducts();
     loadAdminProducts();
+    loadAdminCoupons();
 
     // Event listener para el formulario de agregar producto
     const productForm = document.getElementById('add-product-form');
@@ -41,6 +52,9 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     const sectionForm = document.getElementById('add-section-form');
     if (sectionForm) sectionForm.addEventListener('submit', addSection);
+
+    const couponForm = document.getElementById('add-coupon-form');
+    if (couponForm) couponForm.addEventListener('submit', addCoupon);
 });
 
 // MOSTRAR PÁGINA
@@ -312,6 +326,118 @@ function loadAdminProducts() {
     }).join('');
 }
 
+// ADMIN: CARGAR Y MOSTRAR CUPONES
+async function loadCouponsFromSupabase() {
+    try {
+        const { data, error } = await supabaseClient
+            .from('cupones')
+            .select('*')
+            .order('id', { ascending: true });
+
+        if (error) {
+            console.error('Error cargando cupones:', error);
+            showNotification('Error cargando cupones (ver consola)');
+            return false;
+        }
+
+        cupones = data || [];
+        loadAdminCoupons();
+        return true;
+    } catch (err) {
+        console.error('Excepción cargando cupones:', err);
+        showNotification('Error cargando cupones');
+        return false;
+    }
+}
+
+function loadAdminCoupons() {
+    const container = document.getElementById('admin-coupons-list');
+    if (!container) return;
+
+    if (cupones.length === 0) {
+        container.innerHTML = '<p>No hay cupones cargados.</p>';
+        return;
+    }
+
+    container.innerHTML = cupones.map(c => {
+        const usos = c.usos_max ? `${c.usos_actuales || 0}/${c.usos_max}` : `${c.usos_actuales || 0} usos`;
+        return `
+            <div class="admin-coupon-item">
+                <div><strong>${c.codigo}</strong> - ${c.descuento_valor}% descuento · usos ${usos}</div>
+                <button onclick="deleteCoupon(${c.id})">Eliminar</button>
+            </div>
+        `;
+    }).join('');
+}
+
+async function addCoupon(e) {
+    e.preventDefault();
+
+    const codeInput = document.getElementById('coupon-code-input');
+    const valueInput = document.getElementById('coupon-value-input');
+    const usesInput = document.getElementById('coupon-uses-input');
+
+    const codigo = codeInput.value.trim().toUpperCase();
+    const descuento_valor = parseFloat(valueInput.value);
+    const usos_max = parseInt(usesInput.value, 10) || null;
+
+    if (!codigo || isNaN(descuento_valor) || descuento_valor <= 0) {
+        showNotification('Completa todos los datos correctos del cupón');
+        return;
+    }
+
+    try {
+        const { error } = await supabaseClient
+            .from('cupones')
+            .insert([{
+                codigo,
+                descuento_tipo: 'porcentaje',
+                descuento_valor,
+                valido_hasta: null,
+                usos_max,
+                usos_actuales: 0,
+                activo: true
+            }]);
+
+        if (error) {
+            console.error('Error agregando cupón:', error);
+            showNotification('Error al agregar cupón (' + (error.message || 'ver consola') + ')');
+            return;
+        }
+
+        showNotification('Cupón agregado satisfactoriamente');
+        await loadCouponsFromSupabase();
+        codeInput.value = '';
+        valueInput.value = '';
+        usesInput.value = '';
+    } catch (err) {
+        console.error('Exception agregando cupón:', err);
+        showNotification('Error al agregar cupón');
+    }
+}
+
+async function deleteCoupon(couponId) {
+    try {
+        const { error } = await supabaseClient
+            .from('cupones')
+            .delete()
+            .eq('id', couponId);
+
+        if (error) {
+            console.error('Error eliminando cupón:', error);
+            showNotification('Error eliminando cupón');
+            return;
+        }
+
+        cupones = cupones.filter(c => c.id !== couponId);
+        loadAdminCoupons();
+        showNotification('Cupón eliminado');
+    } catch (err) {
+        console.error('Exception eliminando cupón:', err);
+        showNotification('Error eliminando cupón');
+    }
+}
+
 async function deleteProduct(productId) {
     const index = productos.findIndex(p => p.id === productId);
     if (index === -1) return;
@@ -460,6 +586,8 @@ function showProductDetail(productId) {
     `;
     
     document.getElementById('product-detail-container').innerHTML = html;
+    document.getElementById('review-product-id').value = productId;
+    loadReviews(productId);
     showPage('detalle');
 }
 
@@ -540,8 +668,12 @@ function displayCart() {
             </div>
         `;
         document.getElementById('subtotal').textContent = '0.00';
+        document.getElementById('discount').textContent = '0.00';
         document.getElementById('shipping').textContent = '0.00';
         document.getElementById('total').textContent = '0.00';
+        cuponAplicado = null; // Reset cupón cuando carrito vacío
+        document.getElementById('coupon-code').value = '';
+        document.getElementById('coupon-message').textContent = '';
         return;
     }
     
@@ -606,64 +738,12 @@ const observer = new MutationObserver(() => {
     }
     if (document.getElementById('admin').style.display !== 'none') {
         loadAdminProducts();
+        loadAdminCoupons();
     }
 });
 
 observer.observe(document.getElementById('carrito'), { attributes: true });
 observer.observe(document.getElementById('admin'), { attributes: true });
-
-// PAGAR - Actualizar stock en Supabase
-async function checkout() {
-    // Validar stock disponible
-    for (let item of carrito) {
-        const producto = productos.find(p => p.id === item.id);
-        if (!producto || producto.stock < item.cantidad) {
-            showNotification(`❌ Stock insuficiente: ${item.nombre}`);
-            return;
-        }
-    }
-
-    // Procesar compra: actualizar stock en Supabase
-    try {
-        for (let item of carrito) {
-            const producto = productos.find(p => p.id === item.id);
-            const nuevoStock = producto.stock - item.cantidad;
-            
-            // Actualizar en Supabase
-            const { error } = await supabaseClient
-                .from('productos')
-                .update({ stock: nuevoStock })
-                .eq('id', item.id);
-            
-            if (error) {
-                console.error('Error actualizando stock:', error);
-                showNotification('❌ Error al procesar la compra');
-                return;
-            }
-        }
-
-        // Si todo va bien, mostrar confirmación
-        const total = document.getElementById('total').textContent;
-        showNotification(`✅ Compra realizada! Total: RD$${total}`);
-        
-        // Recargar productos para actualizar stock localmente
-        await loadProductsFromSupabase();
-        
-        // Re-renderizar todas las tarjetas de productos (actualizar stock visible)
-        loadProducts();
-        loadHomeProducts();
-        
-        // Vaciar carrito
-        carrito = [];
-        updateCartCount();
-        
-        // Redirigir a inicio
-        setTimeout(() => showPage('home'), 1500);
-    } catch (error) {
-        console.error('Error en checkout:', error);
-        showNotification('❌ Error procesando la compra');
-    }
-}
 
 // ENVIAR CONTACTO
 function sendContact(e) {
@@ -697,3 +777,225 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
+
+// FUNCIONES PARA RESEÑAS
+async function loadReviews(productId) {
+    try {
+        const { data, error } = await supabaseClient
+            .from('resenas')
+            .select('*')
+            .eq('producto_id', productId)
+            .order('fecha', { ascending: false });
+        
+        if (error) {
+            console.error('Error cargando reseñas:', error);
+            document.getElementById('reviews-list').innerHTML = '<p>Error al cargar reseñas</p>';
+            return;
+        }
+        
+        const reviewsHtml = data.map(review => `
+            <div class="review-item">
+                <div class="review-header">
+                    <span class="review-name">${review.usuario}</span>
+                    <span class="review-rating">${'⭐'.repeat(review.rating)}</span>
+                </div>
+                <div class="review-date">${new Date(review.fecha).toLocaleDateString()}</div>
+                <div class="review-comment">${review.comentario}</div>
+            </div>
+        `).join('');
+        
+        document.getElementById('reviews-list').innerHTML = reviewsHtml || '<p>No hay reseñas aún. ¡Sé el primero en opinar!</p>';
+    } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('reviews-list').innerHTML = '<p>Error al cargar reseñas</p>';
+    }
+}
+
+async function submitReview(event) {
+    event.preventDefault();
+    
+    const productId = document.getElementById('review-product-id').value;
+    const name = document.getElementById('review-name').value;
+    const rating = document.getElementById('review-rating').value;
+    const comment = document.getElementById('review-comment').value;
+    
+    try {
+        const { error } = await supabaseClient
+            .from('resenas')
+            .insert([{
+                producto_id: productId,
+                usuario: name,
+                comentario: comment,
+                rating: parseInt(rating)
+            }]);
+        
+        if (error) {
+            console.error('Error enviando reseña:', error);
+            showNotification('❌ Error al enviar la reseña');
+            return;
+        }
+        
+        showNotification('✅ Reseña enviada exitosamente');
+        document.getElementById('review-form').reset();
+        loadReviews(productId);
+    } catch (error) {
+        console.error('Error:', error);
+        showNotification('❌ Error al enviar la reseña');
+    }
+}
+
+// FUNCIONES PARA CUPONES
+async function applyCoupon() {
+    const code = document.getElementById('coupon-code').value.trim().toUpperCase();
+    if (!code) {
+        showCouponMessage('Ingresa un código de cupón', 'error');
+        return;
+    }
+    
+    try {
+        const { data, error } = await supabaseClient
+            .from('cupones')
+            .select('*')
+            .ilike('codigo', code)
+            .eq('activo', true)
+            .limit(1);
+        
+        if (error) {
+            console.error('Error leyendo cupón:', error);
+            showCouponMessage('Error al buscar cupón', 'error');
+            return;
+        }
+
+        if (!data || data.length === 0) {
+            showCouponMessage('Cupón inválido o expirado', 'error');
+            return;
+        }
+
+        const coupon = data[0];
+        console.log('Cupón encontrado:', coupon);
+        
+        // Verificar fecha de validez
+        if (coupon.valido_hasta && new Date(coupon.valido_hasta) < new Date()) {
+            showCouponMessage('Cupón expirado', 'error');
+            return;
+        }
+        
+        // Verificar usos máximos (asegurar valores numéricos)
+        const usos_actuales = coupon.usos_actuales || 0;
+        if (coupon.usos_max && usos_actuales >= coupon.usos_max) {
+            showCouponMessage('Cupón agotado', 'error');
+            return;
+        }
+        
+        // Asegurar que usos_actuales sea un número en el objeto
+        coupon.usos_actuales = usos_actuales;
+        
+        cuponAplicado = coupon;
+        showCouponMessage(`Cupón aplicado: ${coupon.descuento_tipo === 'porcentaje' ? coupon.descuento_valor + '%' : 'RD$' + coupon.descuento_valor}`, 'success');
+        updateCartTotal();
+    } catch (error) {
+        console.error('Error aplicando cupón:', error);
+        showCouponMessage('Error al aplicar cupón', 'error');
+    }
+}
+
+function showCouponMessage(message, type) {
+    const element = document.getElementById('coupon-message');
+    element.textContent = message;
+    element.className = type;
+    element.style.color = type === 'error' ? '#dc3545' : '#28a745';
+}
+
+// MODIFICAR CALCULAR TOTAL DEL CARRITO PARA INCLUIR CUPÓN
+function updateCartTotal() {
+    let subtotal = 0;
+    carrito.forEach(item => {
+        const finalPrice = item.descuento ? (item.precio * (1 - item.descuento / 100)) : item.precio;
+        subtotal += finalPrice * item.cantidad;
+    });
+    
+    let discount = 0;
+    if (cuponAplicado) {
+        if (cuponAplicado.descuento_tipo === 'porcentaje') {
+            discount = subtotal * (cuponAplicado.descuento_valor / 100);
+        } else {
+            discount = cuponAplicado.descuento_valor;
+        }
+        discount = Math.min(discount, subtotal); // No más descuento que el subtotal
+    }
+    
+    const shipping = subtotal > 100 ? 0 : 10;
+    const total = subtotal - discount + shipping;
+    
+    document.getElementById('subtotal').textContent = subtotal.toFixed(2);
+    document.getElementById('discount').textContent = discount.toFixed(2);
+    document.getElementById('shipping').textContent = shipping.toFixed(2);
+    document.getElementById('total').textContent = total.toFixed(2);
+}
+
+// MODIFICAR CHECKOUT PARA REGISTRAR USO DEL CUPÓN
+async function checkout() {
+    // Validar stock disponible
+    for (let item of carrito) {
+        const producto = productos.find(p => p.id === item.id);
+        if (!producto || producto.stock < item.cantidad) {
+            showNotification(`❌ Stock insuficiente: ${item.nombre}`);
+            return;
+        }
+    }
+
+    // Procesar compra: actualizar stock en Supabase
+    try {
+        for (let item of carrito) {
+            const producto = productos.find(p => p.id === item.id);
+            const nuevoStock = producto.stock - item.cantidad;
+            
+            // Actualizar en Supabase
+            const { error } = await supabaseClient
+                .from('productos')
+                .update({ stock: nuevoStock })
+                .eq('id', item.id);
+            
+            if (error) {
+                console.error('Error actualizando stock:', error);
+                showNotification('❌ Error al procesar la compra');
+                return;
+            }
+        }
+        
+        // Registrar uso del cupón si se aplicó
+        if (cuponAplicado) {
+            const usos_actuales = cuponAplicado.usos_actuales || 0;
+            console.log(`📌 Actualizando cupón ${cuponAplicado.codigo}: ${usos_actuales} → ${usos_actuales + 1}`);
+            
+            const { error: couponError } = await supabaseClient
+                .from('cupones')
+                .update({ usos_actuales: usos_actuales + 1 })
+                .eq('id', cuponAplicado.id);
+            
+            if (couponError) {
+                console.error('❌ Error actualizando uso del cupón:', couponError);
+            } else {
+                console.log('✓ Uso del cupón actualizado en Supabase');
+            }
+        }
+
+        // Si todo va bien, mostrar confirmación
+        const total = document.getElementById('total').textContent;
+        showNotification(`✅ Compra realizada! Total: RD$${total}`);
+        
+        // Limpiar carrito y cupón
+        carrito = [];
+        cuponAplicado = null;
+        updateCartCount();
+        displayCart();
+        
+        // Recargar productos Y cupones para actualizar todo localmente
+        console.log('🔄 Recargando datos desde Supabase...');
+        await loadProductsFromSupabase();
+        await loadCouponsFromSupabase();
+    } catch (error) {
+        console.error('Error en checkout:', error);
+        showNotification('❌ Error al procesar la compra');
+    }
+}
