@@ -80,7 +80,18 @@ function loadHomeProducts() {
         grouped[key].push(p);
     });
 
-    container.innerHTML = secciones.map(sec => {
+    // Asegurar que se muestren todas las secciones que existen en los productos
+    const homeSections = [...secciones];
+    Object.keys(grouped).forEach(sectionId => {
+        if (!homeSections.find(sec => sec.id === sectionId)) {
+            homeSections.push({
+                id: sectionId,
+                nombre: sectionId.replace(/-/g, ' ').replace(/\b\w/g, ch => ch.toUpperCase())
+            });
+        }
+    });
+
+    container.innerHTML = homeSections.map(sec => {
         const sectionProducts = grouped[sec.id] || [];
         if (!sectionProducts.length) return '';
         return `
@@ -107,12 +118,16 @@ async function loadProductsFromSupabase() {
             console.error('❌ ERROR en Supabase:', error.message);
             console.warn('⚠️ Usando productos locales como fallback');
             productos.splice(0, productos.length, ...productosLocal);
+            // Asegurar que todos los productos tengan sección
+            productos.forEach(p => { if (!p.seccion) p.seccion = 'general'; });
             showNotification('Usando datos locales - No se pudo conectar a Supabase');
             return false;
         }
         
         if (data && data.length > 0) {
             productos.splice(0, productos.length, ...data);
+            // Asegurar que todos los productos tengan sección
+            productos.forEach(p => { if (!p.seccion) p.seccion = 'general'; });
             console.log('✓ Productos cargados desde Supabase:', data.length);
             return true;
         } else {
@@ -124,6 +139,8 @@ async function loadProductsFromSupabase() {
         console.error('❌ EXCEPCIÓN al cargar productos:', error);
         console.warn('⚠️ Usando productos locales como fallback');
         productos.splice(0, productos.length, ...productosLocal);
+        // Asegurar que todos los productos tengan sección
+        productos.forEach(p => { if (!p.seccion) p.seccion = 'general'; });
         return false;
     }
 }
@@ -198,6 +215,11 @@ function loadSectionsFromLocalStorage() {
         }
     } catch {
         // ignore
+    }
+    
+    // Asegurar que siempre exista la sección 'general'
+    if (!secciones.find(s => s.id === 'general')) {
+        secciones.unshift({ id: 'general', nombre: 'General' });
     }
 }
 
