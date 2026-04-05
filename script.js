@@ -737,22 +737,6 @@ function removeFromCart(index) {
     showNotification(`${producto} eliminado del carrito`);
 }
 
-// CALCULAR TOTAL DEL CARRITO
-function updateCartTotal() {
-    let subtotal = 0;
-    carrito.forEach(item => {
-        const finalPrice = item.descuento ? (item.precio * (1 - item.descuento / 100)) : item.precio;
-        subtotal += finalPrice * item.cantidad;
-    });
-    
-    const shipping = subtotal > 100 ? 0 : 10;
-    const total = subtotal + shipping;
-    
-    document.getElementById('subtotal').textContent = subtotal.toFixed(2);
-    document.getElementById('shipping').textContent = shipping.toFixed(2);
-    document.getElementById('total').textContent = total.toFixed(2);
-}
-
 // OBSERVADOR PARA MOSTRAR CARRITO CUANDO SE HACE CLICK
 const observer = new MutationObserver(() => {
     if (document.getElementById('carrito').style.display !== 'none') {
@@ -777,7 +761,7 @@ function sendContact(e) {
 // NOTIFICACIÓN
 function showNotification(msg) {
     const div = document.createElement('div');
-    div.style.cssText = 'position:fixed;top:20px;right:20px;background:#667eea;color:white;padding:15px 25px;border-radius:5px;z-index:1000;animation:slideIn 0.3s';
+    div.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#2d5347;color:#d4af37;padding:15px 25px;border-radius:5px;z-index:1000;animation:slideIn 0.3s';
     div.textContent = msg;
     document.body.appendChild(div);
     setTimeout(() => div.remove(), 3000);
@@ -790,12 +774,20 @@ window.addEventListener('load', () => {
     updateCartCount();
 });
 
-// ANIMACIÓN SLIDE IN
+function showSuccessModal() {
+    document.getElementById('success-modal').style.display = 'flex';
+    document.body.classList.add('modal-open');
+    setTimeout(() => {
+        document.getElementById('success-modal').style.display = 'none';
+        document.body.classList.remove('modal-open');
+    }, 3000);
+}
+
 const style = document.createElement('style');
 style.textContent = `
     @keyframes slideIn {
-        from { transform: translateX(400px); }
-        to { transform: translateX(0); }
+        from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+        to { opacity: 1; transform: translateX(-50%) translateY(0); }
     }
 `;
 document.head.appendChild(style);
@@ -929,7 +921,9 @@ function showCouponMessage(message, type) {
 }
 
 // MODIFICAR CALCULAR TOTAL DEL CARRITO PARA INCLUIR CUPÓN
-function updateCartTotal() {
+let shippingOption = 'standard';
+
+function calculateCartTotals() {
     let subtotal = 0;
     carrito.forEach(item => {
         const finalPrice = item.descuento ? (item.precio * (1 - item.descuento / 100)) : item.precio;
@@ -946,17 +940,94 @@ function updateCartTotal() {
         discount = Math.min(discount, subtotal); // No más descuento que el subtotal
     }
     
-    const shipping = subtotal > 100 ? 0 : 10;
+    const shipping = carrito.length > 0 ? (shippingOption === 'priority' ? 105 : 55) : 0;
     const total = subtotal - discount + shipping;
+    const productsTotal = Math.max(0, subtotal - discount);
     
-    document.getElementById('subtotal').textContent = subtotal.toFixed(2);
-    document.getElementById('discount').textContent = discount.toFixed(2);
-    document.getElementById('shipping').textContent = shipping.toFixed(2);
-    document.getElementById('total').textContent = total.toFixed(2);
+    return { subtotal, discount, shipping, total, productsTotal };
 }
 
-// MODIFICAR CHECKOUT PARA REGISTRAR USO DEL CUPÓN
-async function checkout() {
+function handleShippingOptionChange() {
+    const selected = document.querySelector('input[name="shipping-option"]:checked');
+    if (!selected) return;
+    shippingOption = selected.value;
+    updateCheckoutSummary();
+    updateCartTotal();
+}
+
+function updateCartTotal() {
+    const totals = calculateCartTotals();
+    document.getElementById('subtotal').textContent = totals.subtotal.toFixed(2);
+    document.getElementById('discount').textContent = totals.discount.toFixed(2);
+    document.getElementById('shipping').textContent = totals.shipping.toFixed(2);
+    document.getElementById('total').textContent = totals.total.toFixed(2);
+}
+
+function updateCheckoutSummary() {
+    const totals = calculateCartTotals();
+    document.getElementById('checkout-subtotal').textContent = totals.subtotal.toFixed(2);
+    document.getElementById('checkout-discount').textContent = totals.discount.toFixed(2);
+    document.getElementById('checkout-products-total').textContent = totals.productsTotal.toFixed(2);
+    document.getElementById('checkout-shipping').textContent = totals.shipping.toFixed(2);
+    document.getElementById('checkout-total').textContent = totals.total.toFixed(2);
+}
+
+function openCheckoutModal() {
+    if (!carrito.length) {
+        showNotification('Tu carrito está vacío. Agrega productos antes de pagar.');
+        return;
+    }
+    updateCartTotal();
+    updateCheckoutSummary();
+    document.getElementById('checkout-modal').style.display = 'flex';
+    document.body.classList.add('modal-open');
+    handlePaymentMethodChange();
+}
+
+function closeCheckoutModal() {
+    document.getElementById('checkout-modal').style.display = 'none';
+    document.body.classList.remove('modal-open');
+}
+
+function handlePaymentMethodChange() {
+    const method = document.querySelector('input[name="payment-method"]:checked').value;
+    const cardSection = document.getElementById('card-details');
+    cardSection.style.display = method === 'visa' || method === 'mastercard' ? 'grid' : 'none';
+}
+
+function confirmCheckout(e) {
+    e.preventDefault();
+
+    const nombre = document.getElementById('checkout-name').value.trim();
+    const identificacion = document.getElementById('checkout-id').value.trim();
+    const telefono = document.getElementById('checkout-phone').value.trim();
+    const correo = document.getElementById('checkout-email').value.trim();
+    const direccion = document.getElementById('checkout-address').value.trim();
+    const ciudad = document.getElementById('checkout-city').value.trim();
+    const codigoPostal = document.getElementById('checkout-zip').value.trim();
+    const metodo = document.querySelector('input[name="payment-method"]:checked').value;
+
+    if (!nombre || !identificacion || !telefono || !correo || !direccion || !ciudad || !codigoPostal) {
+        showNotification('Completa todos los datos del destinatario y la dirección de entrega.');
+        return;
+    }
+
+    if (metodo === 'visa' || metodo === 'mastercard') {
+        const numero = document.getElementById('card-number').value.trim();
+        const vencimiento = document.getElementById('card-expiry').value.trim();
+        const cvv = document.getElementById('card-cvv').value.trim();
+
+        if (!numero || !vencimiento || !cvv) {
+            showNotification('Completa los datos de la tarjeta.');
+            return;
+        }
+    }
+
+    closeCheckoutModal();
+    processCheckout();
+}
+
+async function processCheckout() {
     // Validar stock disponible
     for (let item of carrito) {
         const producto = productos.find(p => p.id === item.id);
@@ -1003,8 +1074,8 @@ async function checkout() {
         }
 
         // Si todo va bien, mostrar confirmación
-        const total = document.getElementById('total').textContent;
-        showNotification(`✅ Compra realizada! Total: RD$${total}`);
+        closeCheckoutModal();
+        showSuccessModal();
         
         // Limpiar carrito y cupón
         carrito = [];

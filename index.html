@@ -168,7 +168,136 @@
                 <p>Descuento: RD$<span id="discount">0.00</span></p>
                 <p>Envío: RD$<span id="shipping">0.00</span></p>
                 <h4>Total: RD$<span id="total">0.00</span></h4>
-                <button class="btn-primary" onclick="checkout()">Ir a Pagar</button>
+                <button class="btn-primary" onclick="openCheckoutModal()">Ir a Pagar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE CHECKOUT -->
+    <div id="checkout-modal" class="checkout-modal-overlay" style="display:none;">
+        <div class="checkout-dialog">
+            <button class="checkout-modal-close" type="button" onclick="closeCheckoutModal()">×</button>
+            <div class="checkout-modal-header">
+                <h3>Finalizar Compra</h3>
+                <p>Ingresa tus datos de entrega y elige el método de pago.</p>
+            </div>
+            <form id="checkout-form" class="checkout-form" onsubmit="confirmCheckout(event)">
+                <div class="checkout-section">
+                    <h4>Datos del destinatario</h4>
+                    <div class="form-grid">
+                        <div class="form-field">
+                            <label for="checkout-name">Nombre completo</label>
+                            <input type="text" id="checkout-name" placeholder="Ej. María Pérez" required>
+                        </div>
+                        <div class="form-field">
+                            <label for="checkout-id">Cédula / DNI</label>
+                            <input type="text" id="checkout-id" placeholder="001-1234567-8" required>
+                        </div>
+                        <div class="form-field">
+                            <label for="checkout-phone">Teléfono</label>
+                            <input type="tel" id="checkout-phone" placeholder="+1 829 000 0000" required>
+                        </div>
+                        <div class="form-field">
+                            <label for="checkout-email">Correo electrónico</label>
+                            <input type="email" id="checkout-email" placeholder="correo@dominio.com" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="checkout-section">
+                    <h4>Dirección de entrega</h4>
+                    <div class="form-field">
+                        <label for="checkout-address">Dirección completa</label>
+                        <textarea id="checkout-address" rows="3" placeholder="Calle, número, sector, ciudad" required></textarea>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-field">
+                            <label for="checkout-city">Ciudad</label>
+                            <input type="text" id="checkout-city" placeholder="Santo Domingo" required>
+                        </div>
+                        <div class="form-field">
+                            <label for="checkout-zip">Código postal</label>
+                            <input type="text" id="checkout-zip" placeholder="00000" required>
+                        </div>
+                    </div>
+                    <div class="form-field">
+                        <label for="checkout-notes">Indicaciones para entrega</label>
+                        <textarea id="checkout-notes" rows="2" placeholder="Ej. Tocar timbre, dejar con vecino, campanario rojo."></textarea>
+                    </div>
+                </div>
+                <div class="checkout-section payment-section">
+                    <h4>Método de pago</h4>
+                    <div class="payment-options">
+                        <label class="payment-option"><input type="radio" name="payment-method" value="visa" checked onchange="handlePaymentMethodChange()"><span class="payment-logo visa">Visa</span></label>
+                        <label class="payment-option"><input type="radio" name="payment-method" value="mastercard" onchange="handlePaymentMethodChange()"><span class="payment-logo mastercard">Mastercard</span></label>
+                    </div>
+                </div>
+                <div class="checkout-section shipping-section">
+                    <h4>Tipo de envío</h4>
+                    <div class="shipping-options">
+                        <label class="shipping-option"><input type="radio" name="shipping-option" value="standard" checked onchange="handleShippingOptionChange()"><span>Envío estándar</span><strong>RD$55</strong></label>
+                        <label class="shipping-option"><input type="radio" name="shipping-option" value="priority" onchange="handleShippingOptionChange()"><span>Envío prioritario</span><strong>RD$105</strong><small>Por un costo extra atendemos tu pedido más rápido</small></label>
+                    </div>
+                </div>
+                <div id="card-details" class="card-details">
+                    <div class="payment-card">
+                        <span class="card-chip"></span>
+                        <div class="card-number-field form-field">
+                            <label for="card-number">Número de tarjeta</label>
+                            <input type="text" id="card-number" placeholder="1234 5678 9012 3456">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-field half">
+                                <label for="card-expiry">Vence</label>
+                                <input type="text" id="card-expiry" placeholder="MM/AA">
+                            </div>
+                            <div class="form-field half">
+                                <label for="card-cvv">CVV</label>
+                                <input type="text" id="card-cvv" placeholder="123">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="checkout-summary-block">
+                    <div class="summary-row">
+                        <span>Subtotal productos</span>
+                        <strong id="checkout-subtotal">RD$0.00</strong>
+                    </div>
+                    <div class="summary-row">
+                        <span>Descuentos aplicados</span>
+                        <strong id="checkout-discount">RD$0.00</strong>
+                    </div>
+                    <div class="summary-row">
+                        <span>Total productos</span>
+                        <strong id="checkout-products-total">RD$0.00</strong>
+                    </div>
+                    <div class="summary-row">
+                        <span>Costo de envío</span>
+                        <strong id="checkout-shipping">RD$0.00</strong>
+                    </div>
+                    <div class="summary-final">
+                        <span>Total a pagar</span>
+                        <strong id="checkout-total">RD$0.00</strong>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" onclick="closeCheckoutModal()">Cancelar</button>
+                    <button type="submit" class="btn-primary">Confirmar Pago</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL DE ÉXITO DE COMPRA -->
+    <div id="success-modal" class="modal-overlay" style="display:none;">
+        <div class="success-dialog">
+            <div class="success-content">
+                <div class="checkmark-animation">
+                    <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                        <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+                        <path class="checkmark__check" fill="none" d="m14.1 27.2l7.1 7.2 16.7-16.8"/>
+                    </svg>
+                </div>
+                <h2>Compra realizada</h2>
             </div>
         </div>
     </div>
