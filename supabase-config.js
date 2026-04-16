@@ -30,3 +30,5 @@ setTimeout(async () => {
         console.error('❌ EXCEPCIÓN:', err);
     }
 }, 1000);
+
+// Cambio mínimo para commit

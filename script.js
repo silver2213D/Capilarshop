@@ -305,7 +305,7 @@ function createProductCard(producto) {
     const stockLabel = outOfStock ? '<span class="stock out">Agotado</span>' : `<span class="stock">${producto.stock} disponibles</span>`;
 
     return `
-        <div class="product-card ${outOfStock ? 'out-of-stock' : ''}" onclick="showProductDetail(${producto.id})">
+        <div class="product-card ${outOfStock ? 'out-of-stock' : ''}" onclick="window.location.href='detalle.html?id=${producto.id}'">
             <div class="product-image"><img src="${producto.imagen}" alt="${producto.nombre}" onerror="this.src='images/piel-sensible.jpg'"></div>
             <div class="product-info">
                 <div class="product-name">${producto.nombre}</div>
@@ -610,7 +610,6 @@ function showProductDetail(productId) {
     document.getElementById('product-detail-container').innerHTML = html;
     document.getElementById('review-product-id').value = productId;
     loadReviews(productId);
-    showPage('detalle');
 }
 
 // CONTROLAR CANTIDAD
@@ -1091,4 +1090,5 @@ async function processCheckout() {
         console.error('Error en checkout:', error);
         showNotification('‚ùå Error al procesar la compra');
     }
-}
+}/ /   C a m b i o   m Ì n i m o   p a r a   c o m m i t  
+ 

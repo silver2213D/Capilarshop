@@ -668,4 +668,6 @@ En `index.html`:
 
 ---
 
+<!-- Cambio mínimo para commit -->
+
 **¡Espero que esta documentación sea útil! Pregunta cualquier duda.** 🚀

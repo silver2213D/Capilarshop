@@ -13,20 +13,22 @@
     <!-- NAVBAR -->
     <nav class="navbar">
         <div class="nav-container">
-            <div class="logo" onclick="showPage('home')">
-                <img src="images/Logo empresa.jpeg" alt="Logo Empresa" class="logo-image">
-                <div class="logo-texts">
-                    <span class="logo-text">Escencia capilar</span>
-                    <span class="logo-tagline">Tienda de productos para el cuidado del cabello</span>
-                </div>
+            <div class="logo">
+                <a href="index.html">
+                    <img src="images/Logo empresa.jpeg" alt="Logo Empresa" class="logo-image">
+                    <div class="logo-texts">
+                        <span class="logo-text">Escencia capilar</span>
+                        <span class="logo-tagline">Tienda de productos para el cuidado del cabello</span>
+                    </div>
+                </a>
             </div>
             <ul class="nav-menu">
-                <li><a href="#" onclick="showPage('home'); return false;">Inicio</a></li>
-                <li><a href="#" onclick="showPage('tienda'); return false;">Colecciones</a></li>
-                <li><a href="#" onclick="showPage('nosotros'); return false;">Acerca de</a></li>
-                <li><a href="#" onclick="showPage('contacto'); return false;">Contacto</a></li>
-                <li><a href="#" onclick="showPage('admin'); return false;">Admin</a></li>
-                <li class="cart-icon" onclick="showPage('carrito')"><span class="cart-emoji">🛒</span><span id="cart-count">0</span></li>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="tienda.html">Colecciones</a></li>
+                <li><a href="nosotros.html">Acerca de</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+                <li><a href="admin.html">Admin</a></li>
+                <li class="cart-icon"><a href="carrito.html"><span class="cart-emoji">🛒</span><span id="cart-count">0</span></a></li>
             </ul>
         </div>
     </nav>
@@ -38,7 +40,7 @@
             <div class="hero-content">
                 <h1>Bienvenido Escencia capilar</h1>
                 <p>Nutricion para tu cabello</p>
-                <button class="btn-primary" onclick="showPage('tienda')">EXPLORAR PRODUCTOS</button>
+                <button class="btn-primary"><a href="tienda.html" style="color: white; text-decoration: none;">EXPLORAR PRODUCTOS</a></button>
             </div>
         </section>
         
@@ -51,7 +53,7 @@
         </section>
     </div>
 
-    <!-- PÁGINA TIENDA -->
+    <!-- MODAL DE ÉXITO DE COMPRA -->
     <div id="tienda" class="page" style="display:none;">
         <div class="tienda-header">
             <h1>NUESTRAS COLECCIONES</h1>
@@ -89,13 +91,26 @@
     <!-- PÁGINA ACERCA DE -->
     <div id="nosotros" class="page" style="display:none;">
         <div class="about-container">
-            <h1>SOBRE LOGO EMPRESA</h1>
+            <h1>SOBRE ESCENCIA CAPILAR</h1>
             <div class="about-content">
                 <div class="about-text">
                     <h2>Nuestra Mision</h2>
-                    <p>En Logo Empresa creemos que el cuidado del cabello es una experiencia de belleza. Creamos productos premium con ingredientes naturales que transforman tu rutina en un momento de bienestar capilar.</p>
-                    <h2>Ingredientes Naturales</h2>
-                    <p>Cada formula esta cuidadosamente desarrollada con ingredientes naturales, testados dermatologicamente y sin quimicos agresivos. Tu piel lo merece.</p>
+                    <p>Brindar una experiencia integral de cuidado capilar a través de productos naturales artesanales y diagnósticos personalizados, orientados a nutrir, fortalecer y mejorar la salud del cabello en sus diferentes tipos, combinando ingredientes naturales con un enfoque profesional para lograr resultados efectivos.</h2>
+                    <h2>Nuestra Vision</h2>
+                    <p>Ser una marca reconocida en el mercado del cuidado capilar por ofrecer soluciones personalizadas basadas en productos naturales y diagnóstico especializado, destacándonos por la calidad, innovación y atención enfocada en las necesidades específicas de cada cliente.</p>
+                    <h2>Nuestros Valores</h2>
+                    <p>Personalización 
+                     Confidencialidad 
+Calidad
+Responsabilidad
+Innovación
+Compromiso
+Confianza
+Respeto
+Inclusión
+Naturalidad
+Excelencia
+</p>
                 </div>
                 <div class="about-values">
                     <div class="value-item">
@@ -311,7 +326,7 @@
                     <h3>Estamos aqui para ayudarte</h3>
                     <div class="contact-item">
                         <strong>Correo Electronico</strong>
-                        <p>contacto@logoempresa.com</p>
+                        <p>Capilarcontacto@gmail.com</p>
                     </div>
                     <div class="contact-item">
                         <strong>Telefono</strong>
@@ -507,5 +522,6 @@
     </footer>
 
     <script src="script.js"></script>
+    <!-- Cambio mínimo para commit -->
 </body>
 </html>

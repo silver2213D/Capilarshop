@@ -8,6 +8,9 @@ Para que la tarjeta de la pestaña **Escencia capilar** muestre el fondo solicit
 
 ### ✅ Sistema de reseñas y comentarios
 - Los usuarios pueden ver reseñas de productos en la página de detalle
+- Los usuarios pueden agregar nuevas reseñas con calificación y comentario
+
+<!-- Cambio mínimo para commit -->
 - Formulario para agregar nuevas reseñas con calificación de 1-5 estrellas
 - Las reseñas se almacenan en Supabase y se muestran ordenadas por fecha
 

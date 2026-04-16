@@ -106,4 +106,6 @@ Cliente inicializado: SÍ ✓
 - Ejecuta el SQL anterior para habilitar RLS
 
 **Los productos siguen siendo los hardcodeados**
+
+<!-- Cambio mínimo para commit -->
 - Abre F12 y busca qué dice la consola para saber el error

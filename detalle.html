@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle Producto - Escencia Capilar</title>
+    <link rel="stylesheet" href="estilos.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3"></script>
+    <script src="supabase-config.js"></script>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="images/Logo empresa.jpeg" alt="Logo Empresa" class="logo-image">
+                    <div class="logo-texts">
+                        <span class="logo-text">Escencia capilar</span>
+                        <span class="logo-tagline">Tienda de productos para el cuidado del cabello</span>
+                    </div>
+                </a>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="tienda.html">Colecciones</a></li>
+                <li><a href="nosotros.html">Acerca de</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+                <li><a href="admin.html">Admin</a></li>
+                <li class="cart-icon"><a href="carrito.html"><span class="cart-emoji">🛒</span><span id="cart-count">0</span></a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- PÁGINA DETALLE PRODUCTO -->
+    <div id="detalle" class="page">
+        <button class="btn-back" onclick="window.history.back()">← Volver</button>
+        <div class="product-detail" id="product-detail-container"></div>
+        <div class="reviews-section" id="reviews-section">
+            <h3>Reseñas y Comentarios</h3>
+            <div id="reviews-list"></div>
+            <div class="add-review">
+                <h4>Agregar Reseña</h4>
+                <form id="review-form" onsubmit="submitReview(event)">
+                    <input type="hidden" id="review-product-id">
+                    <div class="form-field">
+                        <label for="review-name">Nombre</label>
+                        <input type="text" id="review-name" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="review-rating">Calificación</label>
+                        <select id="review-rating" required>
+                            <option value="">Selecciona</option>
+                            <option value="5">⭐⭐⭐⭐⭐ (5)</option>
+                            <option value="4">⭐⭐⭐⭐ (4)</option>
+                            <option value="3">⭐⭐⭐ (3)</option>
+                            <option value="2">⭐⭐ (2)</option>
+                            <option value="1">⭐ (1)</option>
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label for="review-comment">Comentario</label>
+                        <textarea id="review-comment" rows="3" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary">Enviar Reseña</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Escencia Capilar</h4>
+                <p>Nutricion para tu cabello</p>
+            </div>
+            <div class="footer-section">
+                <h4>Enlaces</h4>
+                <ul>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="tienda.html">Colecciones</a></li>
+                    <li><a href="nosotros.html">Acerca de</a></li>
+                    <li><a href="contacto.html">Contacto</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contacto</h4>
+                <p>Capilarcontacto@gmail.com</p>
+                <p>+1 829 346 6792</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Escencia Capilar. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Load product detail based on URL parameter
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = parseInt(urlParams.get('id'));
+            if (productId) {
+                showProductDetail(productId);
+            }
+        });
+    </script>
+    <!-- Cambio mínimo para commit -->
+</body>
+</html>

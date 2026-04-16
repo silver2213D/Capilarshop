@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colecciones - Escencia Capilar</title>
+    <link rel="stylesheet" href="estilos.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3"></script>
+    <script src="supabase-config.js"></script>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="images/Logo empresa.jpeg" alt="Logo Empresa" class="logo-image">
+                    <div class="logo-texts">
+                        <span class="logo-text">Escencia capilar</span>
+                        <span class="logo-tagline">Tienda de productos para el cuidado del cabello</span>
+                    </div>
+                </a>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="tienda.html">Colecciones</a></li>
+                <li><a href="nosotros.html">Acerca de</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+                <li><a href="admin.html">Admin</a></li>
+                <li class="cart-icon"><a href="carrito.html"><span class="cart-emoji">🛒</span><span id="cart-count">0</span></a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- PÁGINA TIENDA -->
+    <div id="tienda" class="page">
+        <div class="tienda-header">
+            <h1>NUESTRAS COLECCIONES</h1>
+            <p>Descubre los productos especialmente formulados para ti</p>
+        </div>
+        <div class="tienda-container">
+            <aside class="filters">
+                <h3>FILTRAR</h3>
+                <div class="filter-section">
+                    <h4>Categoria</h4>
+                    <label for="filter-shampoo"><input id="filter-shampoo" name="filter-category" type="checkbox" value="shampoo" onchange="filterProducts()"> Shampoo</label>
+                    <label for="filter-acondicionador"><input id="filter-acondicionador" name="filter-category" type="checkbox" value="acondicionador" onchange="filterProducts()"> Acondicionador</label>
+                    <label for="filter-tratamiento"><input id="filter-tratamiento" name="filter-category" type="checkbox" value="tratamiento" onchange="filterProducts()"> Tratamientos</label>
+                    <label for="filter-estilo"><input id="filter-estilo" name="filter-category" type="checkbox" value="estilo" onchange="filterProducts()"> Estilo y Peinado</label>
+                    <label for="filter-promocion"><input id="filter-promocion" name="filter-category" type="checkbox" value="promocion" onchange="filterProducts()"> En Promoción</label>
+                </div>
+                <div class="filter-section">
+                    <h4>Rango de Precio</h4>
+                    <label for="price-range">Precio máximo:</label>
+                    <input type="range" id="price-range" name="price-range" min="0" max="2000" value="2000" onchange="filterProducts()">
+                    <p>Hasta <span class="price-symbol">RD$</span><span id="price-value">2000</span></p>
+                </div>
+            </aside>
+            <main class="tienda-main">
+                <div class="search-bar">
+                    <label for="search-input" class="sr-only">Buscar producto</label>
+                    <input type="text" id="search-input" name="search-input" placeholder="Buscar producto..." onkeyup="searchProducts()">
+                    <button onclick="searchProducts()" class="btn-search">🔍</button>
+                </div>
+                <div class="products-grid" id="products-grid"></div>
+            </main>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Escencia Capilar</h4>
+                <p>Nutricion para tu cabello</p>
+            </div>
+            <div class="footer-section">
+                <h4>Enlaces</h4>
+                <ul>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="tienda.html">Colecciones</a></li>
+                    <li><a href="nosotros.html">Acerca de</a></li>
+                    <li><a href="contacto.html">Contacto</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contacto</h4>
+                <p>Capilarcontacto@gmail.com</p>
+                <p>+1 829 346 6792</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Escencia Capilar. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <!-- Cambio mínimo para commit -->
+</body>
+</html>

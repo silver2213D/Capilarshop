@@ -101,4 +101,6 @@ Abre la **consola del navegador** (F12) para ver los mensajes de Supabase:
 
 ### La tabla está vacía
 - Agrega productos nuevos desde la página Admin
+
+<!-- Cambio mínimo para commit -->
 - Verifica que los permisos RLS están configurados correctamente
