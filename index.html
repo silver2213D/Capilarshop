@@ -15,7 +15,7 @@
         <div class="nav-container">
             <div class="logo">
                 <a href="index.html">
-                    <img src="images/Logo empresa.jpeg" alt="Logo Empresa" class="logo-image">
+                    <img src="images/Logo%20empresa.jpeg" alt="Logo Empresa" class="logo-image">
                     <div class="logo-texts">
                         <span class="logo-text">Escencia capilar</span>
                         <span class="logo-tagline">Tienda de productos para el cuidado del cabello</span>
@@ -380,17 +380,6 @@ Excelencia
                 <div class="admin-section">
                     <h2>Secciones de Productos</h2>
                     <div class="admin-sections-list" id="admin-sections-list"></div>
-                    <form class="admin-form" id="add-section-form" style="margin-top:1rem;">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="section-name">Nombre de la sección:</label>
-                                <input type="text" id="section-name" required>
-                            </div>
-                            <div class="form-group" style="align-self:flex-end;">
-                                <button type="submit" class="btn-primary">Agregar Sección</button>
-                            </div>
-                        </div>
-                    </form>
                 </div>
 
                 <div class="admin-section">
@@ -408,17 +397,13 @@ Excelencia
                             </div>
                             <div class="form-group">
                                 <label for="product-category">Categoría:</label>
-                                <select id="product-category" name="product-category">
+                                <select id="product-category" name="product-category" required>
                                     <option value="">Seleccionar categoría</option>
-                                    <option value="rostro">Crecimiento</option>
-                                    <option value="cuerpo">Lineas</option>
-                                    <option value="especializado">Lavado</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="product-section">Sección:</label>
-                                <select id="product-section" name="product-section">
-                                    <option value="">Seleccionar sección</option>
+                                    <option value="shampoo">Shampoo</option>
+                                    <option value="acondicionador">Acondicionador</option>
+                                    <option value="tratamiento">Tratamientos</option>
+                                    <option value="estilo">Estilo y Peinado</option>
+                                    <option value="promocion">En Promoción</option>
                                 </select>
                             </div>
                         </div>
@@ -522,6 +507,6 @@ Excelencia
     </footer>
 
     <script src="script.js"></script>
-    <!-- Cambio mínimo para commit -->
+    <!-- Cammbio mínimo para commmit -->
 </body>
 </html>

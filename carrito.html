@@ -15,7 +15,7 @@
         <div class="nav-container">
             <div class="logo">
                 <a href="index.html">
-                    <img src="images/Logo empresa.jpeg" alt="Logo Empresa" class="logo-image">
+                    <img src="images/Logo%20empresa.jpeg" alt="Logo Empresa" class="logo-image">
                     <div class="logo-texts">
                         <span class="logo-text">Escencia capilar</span>
                         <span class="logo-tagline">Tienda de productos para el cuidado del cabello</span>
@@ -212,6 +212,13 @@
     </footer>
 
     <script src="script.js"></script>
+    <script>
+        // Mostrar carrito al cargar la página
+        window.addEventListener('load', function() {
+            console.log('Cargando carrito.html - llamando displayCart');
+            displayCart();
+        });
+    </script>
     <!-- Cambio mínimo para commit -->
 </body>
 </html>
