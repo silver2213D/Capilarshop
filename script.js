@@ -34,7 +34,10 @@ const productosLocal = [
 
 ];
 
-// SECCIONES ELIMINADAS - Usando solo categorías (shampoo, acondicionador, tratamiento, estilo, promocion)
+// SECCIONES DE PRODUCTOS (ADMIN)
+let secciones = [
+    { id: 'general', nombre: 'General' }
+];
 
 // CARRITO
 
