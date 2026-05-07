@@ -2530,11 +2530,14 @@ async function enviarCorreoCompra(email, texto, html) {
 
     try {
 
-        const endpointUrl = `${window.SUPABASE_URL}/functions/v1/enviar-factura`;
+        const supabaseBaseUrl = window.SUPABASE_URL || window.supabaseClient?.url || '';
+        if (!supabaseBaseUrl) {
+            console.error('SUPABASE_URL no está definido');
+            showNotification('No se pudo enviar el correo: falta configuración de Supabase.');
+            return;
+        }
 
-        const body = JSON.stringify({
-
-            email: email,
+        const endpointUrl = `${supabaseBaseUrl.replace(/\/+$/, '')}/functions/v1/enviar-factura`;
 
             detalles_texto: texto,
 
