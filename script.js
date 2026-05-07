@@ -1211,8 +1211,9 @@ function showProductDetail(productId) {
 function increaseQty() {
 
     const input = document.getElementById('quantity');
-
-    input.value = Math.min(parseInt(input.value) + 1, 10);
+    const current = parseInt(input.value) || 1;
+    const maxQty = parseInt(input.max) || 999;
+    input.value = Math.min(current + 1, maxQty);
 
 }
 
@@ -1221,8 +1222,8 @@ function increaseQty() {
 function decreaseQty() {
 
     const input = document.getElementById('quantity');
-
-    input.value = Math.max(parseInt(input.value) - 1, 1);
+    const current = parseInt(input.value) || 1;
+    input.value = Math.max(current - 1, 1);
 
 }
 
@@ -1282,7 +1283,8 @@ function addToCartFromDetail(productId) {
 
     console.log('Productos cargados:', productos.length);
 
-    const cantidad = parseInt(document.getElementById('quantity').value);
+    let cantidad = parseInt(document.getElementById('quantity').value);
+    if (isNaN(cantidad) || cantidad < 1) cantidad = 1;
 
     const producto = productos.find(p => p.id === productId);
 
