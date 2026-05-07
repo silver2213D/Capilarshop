@@ -1428,7 +1428,7 @@ function displayCart() {
 
                 <div class="cart-item-price">RD$${(finalPrice * item.cantidad).toFixed(2)}</div>
 
-                <button class="cart-item-remove" onclick="removeFromCart(${index})">�??</button>
+                <button class="cart-item-remove" onclick="removeFromCart(${index})">X</button>
 
             </div>
 
