@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logo Empresa - Belleza y Estilo</title>
+    <title>Escencia Capilar</title>
     <link rel="stylesheet" href="estilos.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3"></script>
@@ -25,7 +25,7 @@
             <ul class="nav-menu">
                 <li><a href="index.html">Inicio</a></li>
                 <li><a href="tienda.html">Colecciones</a></li>
-                <li><a href="nosotros.html">Acerca de</a></li>
+                <li><a href="nosotros.html">Nosotros</a></li>
                 <li><a href="contacto.html">Contacto</a></li>
                 <li><a href="admin.html">Admin</a></li>
                 <li class="cart-icon"><a href="carrito.html"><span class="cart-emoji">🛒</span><span id="cart-count">0</span></a></li>
@@ -93,42 +93,50 @@
         </div>
     </div>
     
-    <!-- PÁGINA ACERCA DE -->
+    <!-- PÁGINA NOSOTROS -->
     <div id="nosotros" class="page" style="display:none;">
         <div class="about-container">
             <h1>SOBRE ESCENCIA CAPILAR</h1>
             <div class="about-content">
                 <div class="about-text">
-                    <h2>Nuestra Mision</h2>
-                    <p>Brindar una experiencia integral de cuidado capilar a través de productos naturales artesanales y diagnósticos personalizados, orientados a nutrir, fortalecer y mejorar la salud del cabello en sus diferentes tipos, combinando ingredientes naturales con un enfoque profesional para lograr resultados efectivos.</h2>
-                    <h2>Nuestra Vision</h2>
-                    <p>Ser una marca reconocida en el mercado del cuidado capilar por ofrecer soluciones personalizadas basadas en productos naturales y diagnóstico especializado, destacándonos por la calidad, innovación y atención enfocada en las necesidades específicas de cada cliente.</p>
-                    <h2>Nuestros Valores</h2>
-                    <p>Personalización 
-                     Confidencialidad 
-Calidad
-Responsabilidad
-Innovación
-Compromiso
-Confianza
-Respeto
-Inclusión
-Naturalidad
-Excelencia
-</p>
+                    <div class="about-intro-card">
+                        <h2>Nosotros</h2>
+                        <p>Nosotros, Esencia Capilar, somos un emprendimiento enfocado en la elaboración y comercialización de productos naturales para el cuidado del cabello, complementado con servicios especializados de diagnóstico capilar. Nuestra propuesta surge ante la necesidad de ofrecer alternativas más saludables y personalizadas frente a los productos tradicionales que contienen químicos agresivos y no consideran las características individuales de cada tipo de cabello.</p>
+                    </div>
+                    <div class="about-statements">
+                        <div class="statement">
+                            <h2>Misión</h2>
+                            <p>Brindar una experiencia integral de cuidado capilar a través de productos naturales artesanales y diagnósticos personalizados, orientados a nutrir, fortalecer y mejorar la salud del cabello en sus diferentes tipos, combinando ingredientes naturales con un enfoque profesional para lograr resultados efectivos.</p>
+                        </div>
+                        <div class="statement">
+                            <h2>Visión</h2>
+                            <p>Ser una marca reconocida en el mercado del cuidado capilar por ofrecer soluciones personalizadas basadas en productos naturales y diagnóstico especializado, destacándonos por la calidad, innovación y atención enfocada en las necesidades específicas de cada cliente.</p>
+                        </div>
+                        <div class="statement">
+                            <h2>Valores</h2>
+                            <ul>
+                                <li>Personalización</li>
+                                <li>Confidencialidad</li>
+                                <li>Calidad</li>
+                                <li>Responsabilidad</li>
+                                <li>Innovación</li>
+                                <li>Compromiso</li>
+                                <li>Confianza</li>
+                                <li>Respeto</li>
+                                <li>Inclusión</li>
+                                <li>Naturalidad</li>
+                                <li>Excelencia</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-                <div class="about-values">
-                    <div class="value-item">
-                        <h3>🌱 Natural</h3>
-                        <p>Ingredientes puros de la naturaleza</p>
+                <div class="about-side">
+                    <div class="about-card">
+                        <h3>Esencia Capilar</h3>
+                        <p> Esencia Capilar, somos un emprendimiento enfocado en la elaboración y comercialización de productos naturales para el cuidado del cabello, complementado con servicios especializados de diagnóstico capilar. Nuestra propuesta surge ante la necesidad de ofrecer alternativas más saludables y personalizadas frente a los productos tradicionales que contienen químicos agresivos y no consideran las características individuales de cada tipo de cabello.</p>
                     </div>
-                    <div class="value-item">
-                        <h3>💚 Sostenible</h3>
-                        <p>Comprometidos con el medio ambiente</p>
-                    </div>
-                    <div class="value-item">
-                        <h3>✨ Efectivo</h3>
-                        <p>Resultados visibles en 4 semanas</p>
+                    <div class="org-chart-placeholder">
+                        <p>Espacio reservado para el organigrama</p>
                     </div>
                 </div>
             </div>
@@ -339,7 +347,7 @@ Excelencia
                     </div>
                     <div class="contact-item">
                         <strong>Ubicacion</strong>
-                        <p>Calle Juan pablo segundo #11 Sanjuan Republica dominicana</p>
+                        <p>Plaza Orlando, No. 2, Avenida Anacaona, segundo nivel</p>
                     </div>
                     <div class="contact-item">
                         <strong>Horario de Atencion</strong>
@@ -498,14 +506,14 @@ Excelencia
                 <h4>Enlaces</h4>
                 <ul>
                     <li><a href="#" onclick="showPage('tienda'); return false;">Tienda</a></li>
-                    <li><a href="#" onclick="showPage('nosotros'); return false;">Acerca de</a></li>
+                    <li><a href="#" onclick="showPage('nosotros'); return false;">Nosotros</a></li>
                     <li><a href="#" onclick="showPage('contacto'); return false;">Contacto</a></li>
                 </ul>
             </div>
             <div class="footer-section">
                 <h4>Siguenos</h4>
                 <div class="social-links">
-                    <a href="#">Instagram</a>
+                    <a href="">Instagram</a>
                     <a href="#">Facebook</a>
                     <a href="#">TikTok</a>
                 </div>

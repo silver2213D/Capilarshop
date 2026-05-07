@@ -880,8 +880,8 @@ body {
 
 .products-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 25px;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
     margin-top: 2rem;
 }
 
@@ -1209,56 +1209,101 @@ body {
 
 .about-container h1 {
     font-family: 'Playfair Display', serif;
-    font-size: 2.5rem;
+    font-size: 2.8rem;
     color: var(--primary);
-    margin-bottom: 3rem;
+    margin-bottom: 2.5rem;
     text-align: center;
 }
 
 .about-content {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(0, 1.7fr) minmax(280px, 1fr);
     gap: 3rem;
+    align-items: start;
 }
 
-.about-text h2 {
-    font-size: 1.5rem;
+.about-intro-card,
+.about-card,
+.statement {
+    background: white;
+    border-radius: 20px;
+    border: 1px solid rgba(45, 83, 71, 0.1);
+    box-shadow: 0 18px 40px rgba(45, 83, 71, 0.06);
+}
+
+.about-intro-card,
+.about-card,
+.statement {
+    padding: 2rem;
+}
+
+.about-intro-card h2,
+.about-card h3,
+.statement h2 {
     color: var(--primary);
     margin-bottom: 1rem;
-    margin-top: 2rem;
 }
 
-.about-text h2:first-child {
-    margin-top: 0;
+.about-intro-card p,
+.about-card p,
+.statement p,
+.statement ul {
+    color: #55615b;
+    line-height: 1.85;
 }
 
-.about-text p {
-    color: #666;
-    line-height: 1.8;
-    margin-bottom: 1.5rem;
+.about-intro-card p {
+    margin: 0;
 }
 
-.about-values {
+.about-statements {
     display: grid;
-    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.about-statements ul {
+    list-style: disc inside;
+    padding-left: 1rem;
+    margin: 0;
+}
+
+.about-side {
+    display: grid;
     gap: 1.5rem;
 }
 
-.value-item {
-    background: var(--light);
-    padding: 2rem;
-    border-radius: 2px;
+.about-card {
+    background: linear-gradient(180deg, rgba(212,175,55,0.12), rgba(255,255,255,0.95));
 }
 
-.value-item h3 {
-    color: var(--primary);
-    margin-bottom: 0.5rem;
-    font-size: 1.2rem;
+.org-chart-placeholder {
+    min-height: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: rgba(45, 83, 71, 0.05);
+    border: 2px dashed rgba(212, 175, 55, 0.5);
+    border-radius: 20px;
+    color: #5f6b64;
+    font-weight: 600;
+    padding: 1.5rem;
 }
 
-.value-item p {
-    color: #777;
-    font-size: 0.95rem;
+.org-chart-placeholder img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    border-radius: 16px;
+    object-fit: contain;
+}
+
+@media (max-width: 900px) {
+    .about-content {
+        grid-template-columns: 1fr;
+    }
 }
 
 .cart-content {
@@ -1716,7 +1761,7 @@ body {
 
     .products-grid {
         grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-        gap: 15px;
+        gap: 10px;
     }
 
     .tienda-container {
@@ -1877,7 +1922,7 @@ body {
     background: linear-gradient(135deg, #2d5347 0%, #6b9080 100%);
     color: white;
     border: none;
-    padding: 12px 30px;
+    padding: 14px 34px;
     font-size: 1rem;
     border-radius: 25px;
     cursor: pointer;
@@ -1885,9 +1930,20 @@ body {
     font-weight: 700;
 }
 
-.btn-primary:hover {
+..btn-primary:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 22px rgba(24, 24, 24, 0.3);
+}
+
+.product-info .btn-primary,
+.product-detail-info .btn-primary,
+.product-detail-add {
+    display: block;
+    width: 100%;
+    padding: 12px 0;
+    font-size: 0.95rem;
+    border-radius: 12px;
+    box-sizing: border-box;
 }
 
 .btn-secondary {
@@ -1939,8 +1995,8 @@ body {
 /* GRID DE PRODUCTOS */
 .products-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
     margin-top: 2rem;
 }
 
@@ -2010,9 +2066,11 @@ body {
 }
 
 .product-actions button {
-    padding: 8px 12px;
+    padding: 12px 16px;
     border: none;
-    border-radius: 5px;
+    border-radius: 10px;
+    width: 100%;
+    font-size: 0.95rem;
     cursor: pointer;
     font-weight: bold;
     transition: all 0.3s;

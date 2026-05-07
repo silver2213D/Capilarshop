@@ -171,25 +171,11 @@ function loadHomeProducts() {
 
 
 
-    container.innerHTML = homeSections.map(sec => {
-
-        const sectionProducts = grouped[sec.id] || [];
-
-        if (!sectionProducts.length) return '';
-
-        return `
-
-            <div class="home-section">
-
-                <h3 class="home-section-title">${sec.nombre}</h3>
-
-                <div class="products-grid">${sectionProducts.map(p => createProductCard(p)).join('')}</div>
-
-            </div>
-
-        `;
-
-    }).join('');
+    container.innerHTML = `
+        <div class="products-grid">
+            ${productos.map(p => createProductCard(p)).join('')}
+        </div>
+    `;
 
 
 
@@ -1198,16 +1184,11 @@ function showProductDetail(productId) {
             <div style="margin-bottom:1.5rem">Stock: <strong>${producto.stock} unidades disponibles</strong></div>
 
             <div class="quantity-selector">
-
-                <button onclick="decreaseQty()">�??</button>
-
+                <button onclick="decreaseQty()">-</button>
                 <input type="number" id="quantity" value="1" min="1" max="${producto.stock}">
-
                 <button onclick="increaseQty()">+</button>
-
             </div>
-
-            <button class="btn-primary" onclick="addToCartFromDetail(${productId})" style="width:100%;padding:15px">Añadir al Carrito</button>
+            <button class="btn-primary product-detail-add" onclick="addToCartFromDetail(${productId})">Añadir al Carrito</button>
 
         </div>
 
