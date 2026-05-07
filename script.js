@@ -2232,9 +2232,7 @@ async function processCheckout() {
 
         const detallesCompra = generarDetallesCompra(checkoutData);
 
-        enviarCorreoCompra(emailCliente, detallesCompra.texto, detallesCompra.html);
-
-        
+        const emailEnviado = await enviarCorreoCompra(emailCliente, detallesCompra.texto, detallesCompra.html);
 
         // Limpiar carrito y cupón
 
@@ -2247,6 +2245,10 @@ async function processCheckout() {
         updateCartCount();
 
         displayCart();
+
+        if (!emailEnviado) {
+            showNotification('Compra registrada, pero no se pudo enviar la factura por correo.');
+        }
 
         
 
@@ -2534,44 +2536,28 @@ async function enviarCorreoCompra(email, texto, html) {
         if (!supabaseBaseUrl) {
             console.error('SUPABASE_URL no está definido');
             showNotification('No se pudo enviar el correo: falta configuración de Supabase.');
-            return;
+            return false;
         }
 
         const endpointUrl = `${supabaseBaseUrl.replace(/\/+$/, '')}/functions/v1/enviar-factura`;
-
+        const body = JSON.stringify({
+            email: email,
             detalles_texto: texto,
-
             detalles_html: html
-
         });
-
-
 
         console.log('Enviando a Edge Function:', endpointUrl);
-
         console.log('Payload tamaño:', body.length);
 
-
-
         const response = await fetch(endpointUrl, {
-
             method: 'POST',
-
             headers: {
-
                 'Content-Type': 'application/json',
-
                 'apikey': window.SUPABASE_KEY,
-
                 'Authorization': `Bearer ${window.SUPABASE_KEY}`
-
             },
-
             body
-
         });
-
-
 
         const responseText = await response.text();
 
@@ -2601,9 +2587,9 @@ async function enviarCorreoCompra(email, texto, html) {
 
             console.error('Error de función:', response.status, data || responseText);
 
-            showNotification('�? No se pudo enviar el correo. Revisa la consola.');
+            showNotification('No se pudo enviar el correo. Revisa la consola.');
 
-            return;
+            return false;
 
         }
 
@@ -2613,13 +2599,19 @@ async function enviarCorreoCompra(email, texto, html) {
 
             console.log('Correo enviado exitosamente', data.mensaje || '');
 
-            showNotification('�?? Confirmación enviada al correo del cliente');
+            showNotification('Confirmación enviada al correo del cliente');
+
+            return true
+
+            return true;
 
         } else {
 
             console.error('Respuesta inesperada:', data || responseText);
 
-            showNotification('�? No se pudo enviar el correo. Revisa la consola.');
+            showNotification('No se pudo enviar el correo. Revisa la consola.');
+
+            return false;
 
         }
 
@@ -2627,7 +2619,9 @@ async function enviarCorreoCompra(email, texto, html) {
 
         console.error('Error en la petición de correo:', error);
 
-        showNotification('�? Error de conexión con el servidor de correo.');
+        showNotification('Error de conexión con el servidor de correo.');
+
+        return false;
 
     }
 
