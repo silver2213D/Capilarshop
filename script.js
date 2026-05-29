@@ -10,8 +10,12 @@ if (!window.SUPABASE_URL) {
     window.SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ6dmJlYmx3bW1ibG5uYnBkenF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQxMjIyMTMsImV4cCI6MjA4OTY5ODIxM30.XMXAa_w7Tqste1E4PBanyvfSBCCGuIorrhHw0RpCjtI';
     if (window.supabase && window.supabase.createClient) {
         try {
-            window.supabaseClient = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_KEY);
-            console.log('supabaseClient creado por fallback en script.js');
+            if (!window.supabaseClient) {
+                window.supabaseClient = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_KEY);
+                console.log('supabaseClient creado por fallback en script.js');
+            } else {
+                console.log('supabaseClient ya existe — evitando creación duplicada (fallback)');
+            }
         } catch (e) {
             console.error('Error creando supabaseClient en fallback:', e);
         }
@@ -1541,6 +1545,24 @@ if (adminNode) {
         });
     })();
 }
+
+// Ocultar enlaces de navegación que apuntan a admin.html (botón/link en menús)
+(function hideAdminLinks(){
+    try {
+        const links = document.querySelectorAll('a[href="admin.html"]');
+        if (links && links.length) {
+            links.forEach(a => {
+                // esconder el <li> padre si existe, si no esconder el enlace
+                const li = a.closest('li');
+                if (li) li.style.display = 'none';
+                else a.style.display = 'none';
+            });
+            console.log('Enlaces a admin.html ocultos:', links.length);
+        }
+    } catch (e) {
+        console.error('Error ocultando enlaces admin:', e);
+    }
+})();
 
 const observer = new MutationObserver(() => {
 
