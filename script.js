@@ -1500,6 +1500,48 @@ const carritoNode = document.getElementById('carrito');
 
 const adminNode = document.getElementById('admin');
 
+// Ocultar el botón admin por defecto y añadir acceso secreto por tecla
+if (adminNode) {
+    adminNode.style.display = 'none';
+    (function(){
+        let adminKeyCount = 0;
+        let adminKeyTimer = null;
+        const REQUIRED_PRESSES = 5; // número de pulsaciones necesarias
+        const KEY = 'a'; // tecla que debe presionarse (minúscula)
+        const TIME_WINDOW_MS = 3000; // ventana de tiempo para las pulsaciones
+
+        function revealAdmin() {
+            adminNode.style.display = '';
+            sessionStorage.setItem('admin-unlocked', '1');
+            // ocultar automáticamente después de 60 segundos
+            setTimeout(() => {
+                if (sessionStorage.getItem('admin-unlocked')) {
+                    adminNode.style.display = 'none';
+                    sessionStorage.removeItem('admin-unlocked');
+                }
+            }, 60000);
+        }
+
+        // Si ya estaba desbloqueado en la sesión, mantener visible
+        if (sessionStorage.getItem('admin-unlocked')) {
+            adminNode.style.display = '';
+        }
+
+        window.addEventListener('keydown', (e) => {
+            if (e.key && e.key.toLowerCase() === KEY) {
+                adminKeyCount++;
+                if (adminKeyTimer) clearTimeout(adminKeyTimer);
+                adminKeyTimer = setTimeout(() => { adminKeyCount = 0; }, TIME_WINDOW_MS);
+                if (adminKeyCount >= REQUIRED_PRESSES) {
+                    revealAdmin();
+                    adminKeyCount = 0;
+                    if (adminKeyTimer) clearTimeout(adminKeyTimer);
+                }
+            }
+        });
+    })();
+}
+
 const observer = new MutationObserver(() => {
 
     if (carritoNode && carritoNode.style.display !== 'none') {
