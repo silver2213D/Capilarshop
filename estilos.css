@@ -18,6 +18,17 @@ a {
     box-sizing: border-box;
 }
 
+/* Evitar desplazamiento horizontal en móviles y ocultar scrollbar visualmente */
+@media (max-width: 768px) {
+    html, body {
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+        -ms-overflow-style: none; /* IE/Edge */
+        scrollbar-width: none; /* Firefox */
+    }
+    html::-webkit-scrollbar, body::-webkit-scrollbar { display: none; }
+}
+
 .sr-only {
     position: absolute;
     width: 1px;
@@ -794,9 +805,50 @@ body {
         height: 150px;
     }
 
+/* Asegurar imágenes responsivas */
+img, picture, video {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
     .product-actions {
         gap: 0.8rem;
     }
+
+/* Additional mobile-first refinements */
+@media (max-width: 1024px) {
+    .nav-container { padding: 0 20px; }
+    .hero { padding: 80px 20px; }
+    .hero-content h1 { font-size: 2.4rem; }
+    .hero-content p { font-size: 1rem; }
+    .page { padding: 0 20px; }
+}
+
+@media (max-width: 768px) {
+    .nav-container { padding: 0 16px; }
+    .logo-text { font-size: 1rem; }
+    .logo-image { width: 40px; height: 40px; }
+    .nav-menu { gap: 1rem; flex-wrap: wrap; justify-content: flex-end; }
+    .nav-menu a { font-size: 0.85rem; padding: 8px 6px; display: inline-block; }
+    .cart-icon { padding: 0.6rem 0.8rem; }
+    .btn-primary, .btn-secondary { width: 100%; padding: 12px 18px; box-sizing: border-box; }
+    .checkout-dialog { width: calc(100% - 32px); padding: 1rem; border-radius: 14px; }
+}
+
+@media (max-width: 480px) {
+    body { font-size: 15px; }
+    .nav-container { padding: 0 12px; }
+    .nav-menu { gap: 0.6rem; }
+    .hero { padding: 60px 12px; }
+    .hero-content h1 { font-size: 1.8rem; }
+    .benefits { gap: 1rem; }
+    .benefit-card { padding: 1rem; }
+    .product-card .product-info { padding: 10px; }
+    .product-image img { width: 100%; height: auto; }
+    .cart-icon { padding: 0.5rem 0.6rem; }
+    .logo-tagline { display: none; }
+}
 
     .checkout-modal-overlay {
         align-items: flex-start;
