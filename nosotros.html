@@ -8,6 +8,22 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3"></script>
     <script src="supabase-config.js"></script>
+    <script>
+        // Configuración inline de Supabase (backup si supabase-config.js no carga)
+        if (!window.SUPABASE_URL) {
+            const SUPABASE_URL = 'https://vzvbeblwmmblnnbpdzqx.supabase.co';
+            const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ6dmJlYmx3bW1ibG5uYnBkenF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQxMjIyMTMsImV4cCI6MjA4OTY5ODIxM30.XMXAa_w7Tqste1E4PBanyvfSBCCGuIorrhHw0RpCjtI';
+            
+            window.SUPABASE_URL = SUPABASE_URL;
+            window.SUPABASE_KEY = SUPABASE_KEY;
+            
+            if (window.supabase && window.supabase.createClient) {
+                window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+            }
+            
+            console.log('Configuración de Supabase cargada (inline backup)');
+        }
+    </script>
 </head>
 <body>
     <!-- NAVBAR -->

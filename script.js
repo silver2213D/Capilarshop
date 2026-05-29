@@ -2,6 +2,22 @@
 
 let productos = [];
 
+// Fallback rápido: si por alguna razón los scripts de configuración no cargaron,
+// definimos las variables públicas mínimas para pruebas en GitHub Pages.
+if (!window.SUPABASE_URL) {
+    console.warn('Aplicando fallback inline de SUPABASE_URL en script.js');
+    window.SUPABASE_URL = 'https://vzvbeblwmmblnnbpdzqx.supabase.co';
+    window.SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ6dmJlYmx3bW1ibG5uYnBkenF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQxMjIyMTMsImV4cCI6MjA4OTY5ODIxM30.XMXAa_w7Tqste1E4PBanyvfSBCCGuIorrhHw0RpCjtI';
+    if (window.supabase && window.supabase.createClient) {
+        try {
+            window.supabaseClient = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_KEY);
+            console.log('supabaseClient creado por fallback en script.js');
+        } catch (e) {
+            console.error('Error creando supabaseClient en fallback:', e);
+        }
+    }
+}
+
 
 
 // PRODUCTOS DE FALLBACK (solo si Supabase no funciona)
@@ -2532,10 +2548,25 @@ async function enviarCorreoCompra(email, texto, html) {
 
     try {
 
-        const supabaseBaseUrl = window.SUPABASE_URL || window.supabaseClient?.url || '';
-        if (!supabaseBaseUrl) {
-            console.error('SUPABASE_URL no está definido');
+        // Esperar a que SUPABASE_URL esté disponible (máximo 5 segundos)
+        let attempts = 0;
+        while (!window.SUPABASE_URL && attempts < 50) {
+            await new Promise(resolve => setTimeout(resolve, 100));
+            attempts++;
+        }
+
+        if (!window.SUPABASE_URL) {
+            console.error('SUPABASE_URL no está definido después de esperar');
             showNotification('No se pudo enviar el correo: falta configuración de Supabase.');
+            return false;
+        }
+
+        const supabaseBaseUrl = window.SUPABASE_URL || (window.supabaseClient && (window.supabaseClient.url || window.supabaseClient.supabaseUrl)) || '';
+        console.log('Valores de diagnóstico: window.SUPABASE_URL=', window.SUPABASE_URL, ' window.supabaseClient=', window.supabaseClient);
+
+        if (!supabaseBaseUrl) {
+            console.error('No se pudo determinar SUPABASE_URL (fallbacks fallaron). Revisa que `supabase-config.js` o el script inline hayan cargado.');
+            showNotification('No se pudo enviar el correo: configuración de Supabase no disponible.');
             return false;
         }
 
@@ -2600,8 +2631,6 @@ async function enviarCorreoCompra(email, texto, html) {
             console.log('Correo enviado exitosamente', data.mensaje || '');
 
             showNotification('Confirmación enviada al correo del cliente');
-
-            return true
 
             return true;
 
