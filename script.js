@@ -1504,8 +1504,9 @@ const carritoNode = document.getElementById('carrito');
 
 const adminNode = document.getElementById('admin');
 
-// Ocultar el botón admin por defecto y añadir acceso secreto por tecla
+// Ocultar el botón admin por defecto y usar atajo de tecla para ir a admin.html
 if (adminNode) {
+    // Mantener el panel admin oculto en la web principal para evitar que se mezcle con el contenido
     adminNode.style.display = 'none';
     (function(){
         let adminKeyCount = 0;
@@ -1515,20 +1516,8 @@ if (adminNode) {
         const TIME_WINDOW_MS = 3000; // ventana de tiempo para las pulsaciones
 
         function revealAdmin() {
-            adminNode.style.display = '';
-            sessionStorage.setItem('admin-unlocked', '1');
-            // ocultar automáticamente después de 60 segundos
-            setTimeout(() => {
-                if (sessionStorage.getItem('admin-unlocked')) {
-                    adminNode.style.display = 'none';
-                    sessionStorage.removeItem('admin-unlocked');
-                }
-            }, 60000);
-        }
-
-        // Si ya estaba desbloqueado en la sesión, mantener visible
-        if (sessionStorage.getItem('admin-unlocked')) {
-            adminNode.style.display = '';
+            // Redirigir a la página separada admin.html en lugar de mostrar el panel embebido
+            window.location.href = 'admin.html';
         }
 
         window.addEventListener('keydown', (e) => {
